@@ -17,8 +17,8 @@ API принимает путь к файлу и номер элемента, в
 
 ### Клонирование репозитория
 ```bash
-git clone https://github.com/username/xlsx-nth-min-finder.git
-cd xlsx-nth-min-finder
+git clone https://github.com/Nekitcus/ComfortSoft.git
+cd ComfortSoft
 ```
 
 ### Сборка проекта
