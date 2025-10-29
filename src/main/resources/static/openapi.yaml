@@ -1,0 +1,87 @@
+openapi: 3.0.1
+info:
+  title: XLSX Nth-Min Finder API
+  version: 1.0.0
+  description: >
+    REST API для поиска N-го минимального числа в XLSX-файле.
+    Файл должен содержать один столбец с целыми числами.
+servers:
+  - url: http://localhost:8080
+    description: Основной сервер API
+paths:
+  /api/xlsx/nth-min:
+    get:
+      summary: Найти N-е минимальное число в Excel-файле
+      operationId: getNthMin
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Путь к локальному XLSX-файлу
+          schema:
+            type: string
+          example: C:\data\numbers.xlsx
+        - name: n
+          in: query
+          required: true
+          description: Номер минимального элемента
+          schema:
+            type: integer
+            minimum: 1
+          example: 3
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/XlsxResponse'
+              examples:
+                success:
+                  summary: Пример успешного ответа
+                  value:
+                    nth: 3
+                    value: 8
+                    file: "C:\\data\\numbers.xlsx"
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidN:
+                  summary: Ошибка N
+                  value:
+                    timestamp: "2025-10-29T12:30:22"
+                    error: "Некорректное значение N"
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    XlsxResponse:
+      type: object
+      properties:
+        nth:
+          type: integer
+          example: 3
+        value:
+          type: integer
+          example: 8
+        file:
+          type: string
+          example: "C:\\data\\numbers.xlsx"
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        error:
+          type: string
+        details:
+          type: string
